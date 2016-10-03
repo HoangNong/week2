@@ -1,0 +1,23 @@
+<% extend 'layout' %>
+<h1><%- @title %></h1>
+
+<div id="list">
+	<form action="/create" method="post" accept-charset="utf-8">
+		<div class="item-new">
+			<input type="text" name="content">
+		</div>
+	</form>
+	<% for todo in @todos : %>
+		<div>
+			<%- @current %>
+			<% if todo._id : %>
+				<form action="/update/<%- todo._id %>" method="post" accetp-charset="utf-8">
+					<input type="text" name="content" value="<%- todo.content %>">
+				</form>
+			<% else : %>
+				<a href="/edit/<%- todo._id %>" title="Update this todo item"><%- todo.content  %></a>
+			<% end %>
+			<a href="/destroy/<%- todo._id %>">Delete</a>
+		</div>
+	<% end %>
+</div>
