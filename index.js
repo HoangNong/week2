@@ -1,8 +1,11 @@
 // mongoose setup
-require( './db' );
+require('./db');
+require('./models/todo');
+require('./models/user');
  
 var express = require('express');
 var routes = require('./routes');
+var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 var app = express();
@@ -22,11 +25,17 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
  
+// todo
 app.get('/', routes.index);
 app.post('/create', routes.create);
 app.get('/destroy/:id', routes.destroy);
 app.get('/edit/:id', routes.edit);
 app.post('/update/:id', routes.update);
+
+// user
+app.get('/setup', user.setup);
+app.use('/api', user.apiRoutes);
+app.get('/login', user.login);
  
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
